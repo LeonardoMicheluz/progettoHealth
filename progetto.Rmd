@@ -45,8 +45,8 @@ library(kableExtra)
 
 ```{r load, echo = FALSE, results = FALSE, message = FALSE}
 setwd("C:/Users/media/Desktop/SCUOLA/uni/III anno/II semestre/epidemiology/progetto")
-wholesale = read.csv("cardio.CSV", header = T, stringsAsFactors = T, sep = ";")
-str(wholesale)
-dim(wholesale)
+data = read.csv("cardio.CSV", header = T, stringsAsFactors = T, sep = ";")
+str(data)
+dim(data)
 ```
 
