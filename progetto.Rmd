@@ -1,0 +1,52 @@
+---
+title: "progettoHealth"
+author: "io"
+date: "2024-05-04"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	results = FALSE
+)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(results = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+
+```{r tinytex, echo = FALSE, message = FALSE, results = FALSE}
+#tinytex::install_tinytex()
+```
+
+
+```{r lib, echo = FALSE, message = FALSE, results = FALSE}
+#install.packages("gvlma")
+#install.packages("ggcorrplot")
+library(ggcorrplot)
+library(gvlma)
+library(tidyverse)
+library(ggExtra)
+library(cowplot)
+library(magrittr)
+library(gtable)
+library(lattice)
+library(grid)
+library(gridExtra)
+library(corrplot)
+library(ggplot2)
+library(GGally)
+library(MASS)
+library(kableExtra)
+```
+
+
+```{r load, echo = FALSE, results = FALSE, message = FALSE}
+setwd("C:/Users/media/Desktop/SCUOLA/uni/III anno/II semestre/epidemiology/progetto")
+wholesale = read.csv("cardio.CSV", header = T, stringsAsFactors = T, sep = ";")
+str(wholesale)
+dim(wholesale)
+```
+
