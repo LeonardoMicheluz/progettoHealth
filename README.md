@@ -90,4 +90,4 @@ Note that, contrary to statistical convention, a "0" means that the patient DID 
 
 * any.event:	outcome variable, defined as "death or newmi or newptca or newcabg". if any of these variables is positive (= 1) then "any event" is also postive (= 1).
 
-* ecg:	signs of heart attack on ecg (1 = yes)
+* ecg:	signs of heart attack on ecg
