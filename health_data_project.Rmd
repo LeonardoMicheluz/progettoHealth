@@ -148,16 +148,6 @@ ggplot(data, aes(x=concave.points_worst, y=radius_mean, color= diagnosis))+
 ```
 
 ```{r}
-ggplot(data, aes(x=concave.points_worst, y=radius_mean, color= diagnosis))+
-  geom_point()
-```
-
-```{r}
-ggplot(data, aes(x=concave.points_worst, y=radius_mean, color= diagnosis))+
-  geom_point()
-```
-
-```{r}
 ggplot(data, aes(x=concave.points_worst, y=area_worst, color= diagnosis))+
   geom_point()
 ```
@@ -165,4 +155,36 @@ ggplot(data, aes(x=concave.points_worst, y=area_worst, color= diagnosis))+
 ```{r}
 ggplot(data, aes(x=concave.points_mean, y=radius_mean, color= diagnosis))+
   geom_point()
+```
+
+```{r}
+# Modello di regressione logistica
+glm_model <- glm(diagnosis ~ radius_mean + concave.points_mean, data = data, family = "binomial")
+
+# Previste probabilità della variabile dipendente
+predicted_probabilities <- predict(glm_model, data, type = 'response')
+
+# Converti le probabilità previste in True/False
+predicted_diagnosis <- ifelse(predicted_probabilities >= 0.5, "True", "False")
+
+# Calcola l'accuratezza del modello
+accuracy <- mean(predicted_diagnosis == data$diagnosis)
+print(paste("Accuratezza del modello:", round(accuracy, 4)))
+
+```
+
+```{# Modello di regressione logistica}
+glm_model <- glm(diagnosis ~ radius_mean + concave.points_mean, data = data, family = "binomial")
+
+# Previste probabilità della variabile dipendente
+predicted_probabilities <- predict(glm_model, data, type = 'response')
+
+# Converti le probabilità previste in True/False
+predicted_diagnosis <- ifelse(predicted_probabilities >= 0.5, "True", "False")
+
+# Calcola l'accuratezza del modello
+accuracy <- mean(predicted_diagnosis == data$diagnosis)
+print(paste("Accuratezza del modello:", round(accuracy, 4)))
+
+
 ```
