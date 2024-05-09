@@ -5,11 +5,9 @@ It starts when cells in the breast begin to grow out of control. These cells usu
 The key challenges against it’s detection is how to classify tumors into malignant (cancerous) or benign(non cancerous).
 
 ## Objective:
-* Understand the Dataset & cleanup (if required).
+* Understand the Dataset & cleanup.
 * Build classification models to predict whether the cancer type is Malignant or Benign.
 * Also fine-tune the hyperparameters & compare the evaluation metrics of various classification algorithms.
 
 ### References:
-https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset/data
-
-https://www.kaggle.com/code/chanchal24/breast-cancer-prediction-with-7-models-98-acc
+Dataset: https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic
