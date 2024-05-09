@@ -49,4 +49,467 @@ data = read.csv("cardio.CSV", header = T, stringsAsFactors = T, sep = ";")
 str(data)
 dim(data)
 ```
+```{r}
+names(data)[names(data) == 'Column1'] <- 'ID'
 
+data$gender<-factor(data$gender, labels=c("F","M"))
+data$chestpain<-factor(data$chestpain, labels=c("no","yes"))
+data$restwma<-factor(data$restwma, labels=c("no","yes"))
+data$posSE <-factor(data$posSE , labels=c("no","yes"))
+data$newMI <-factor(data$newMI , labels=c("no","yes"))
+data$newPTCA<-factor(data$newPTCA, labels=c("no","yes"))
+data$newCABG <-factor(data$newCABG , labels=c("no","yes"))
+data$death<-factor(data$death, labels=c("no","yes"))
+data$hxofHT<-factor(data$hxofHT, labels=c("no","yes"))
+data$hxofDM<-factor(data$hxofDM, labels=c("no","yes"))
+data$hxofCig<-factor(data$hxofCig)
+data$hxofMI<-factor(data$hxofMI, labels=c("no","yes"))
+data$hxofPTCA<-factor(data$hxofPTCA, labels=c("no","yes"))
+data$hxofCABG<-factor(data$hxofCABG, labels=c("no","yes"))
+data$any.event<-factor(data$any.event, labels=c("no","yes"))
+data$ecg<-factor(data$ecg)
+```
+
+
+```{r fig.height=5, fig.width=8}
+
+data2 <- data[, -c(1,9)]
+```
+
+
+```{r}
+corr_mat = cor(data[, -c(1,15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)])  # matrice di correlazione
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+Questa è la matrice di correlazione per la variabile 'death' con un valore di 'yes', quindi il paziente è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+
+```{r}
+corr_mat = cor(data2[data2$death == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+Questa è la matrice di correlazione per la variabile 'death' con un valore di 'no', quindi il paziente non è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+```{r}
+corr_mat = cor(data2[data2$death == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+
+
+```{r fig.height=5, fig.width=8}
+corr_mat = cor(data2[data2$death == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+par(mfrow = c(1,2))
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+
+
+
+corr_mat = cor(data2[data2$death == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+Come si può vedere c'è una grande correlazione tra dobEF e baseEF in entrambi i casi, una grande correlazione tra sbp e mbp in entrambi i casi (maggiore con death = no), dp e sbp, dp e dpmaxdo (maggiore in death = no). Si hanno inoltre dei valori negativi molto più alti nei pazienti morti.
+
+
+
+Questa è la matrice di correlazione per la variabile 'newMI' con un valore di 'yes', quindi il paziente è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+```{r}
+corr_mat = cor(data2[data2$newMI == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+Questa è la matrice di correlazione per la variabile 'newMI' con un valore di 'no', quindi il paziente non è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+```{r}
+corr_mat = cor(data2[data2$newMI == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+```
+```{r fig.height=4.5, fig.width=8}
+corr_mat = cor(data2[data2$newMI == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+par(mfrow = c(1,2))
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+
+
+
+corr_mat = cor(data2[data2$newMI == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+Come si può vedere c'è una grande correlazione tra dobEF e baseEF in entrambi i casi, una grande correlazione tra sbp e mbp in entrambi i casi (maggiore con newMI = si), dp e sbp, dp e dpmaxdo (maggiore in death = no), dp e mbp in newMI = si. Si hanno inoltre dei valori negativi molto più alti nei pazienti con newMI = si.
+
+
+
+Questa è la matrice di correlazione per la variabile 'newPTCA' con un valore di 'yes', quindi il paziente è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+```{r}
+corr_mat = cor(data2[data2$newPTCA == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+
+Questa è la matrice di correlazione per la variabile 'newMI' con un valore di 'no', quindi il paziente non è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+```{r}
+corr_mat = cor(data2[data2$newPTCA == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+```
+
+```{r fig.height=4.5, fig.width=8}
+corr_mat = cor(data2[data2$newPTCA == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+par(mfrow = c(1,2))
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+
+
+
+corr_mat = cor(data2[data2$newPTCA == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+Come si può vedere c'è una grande correlazione tra dobEF e baseEF in entrambi i casi, una grande correlazione tra sbp e mbp in entrambi i casi, dp e sbp (maggiore con newPTCA = si), dp e dpmaxdo (maggiore in newPTCA = no), dp e mbp in newMI = si, basedp e basebp (maggiore con newPTCA = si). Si hanno inoltre dei valori negativi molto più alti nei pazienti con newMI = si.
+
+
+Questa è la matrice di correlazione per la variabile 'newCABG' con un valore di 'yes', quindi il paziente è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+```{r}
+corr_mat = cor(data2[data2$newCABG == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+
+Questa è la matrice di correlazione per la variabile 'newCABG' con un valore di 'no', quindi il paziente non è deceduto nell'arco di 12 mesi dall'assunzione del farmaco.
+```{r}
+corr_mat = cor(data2[data2$newCABG == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+```
+
+```{r fig.height=4.5, fig.width=8}
+corr_mat = cor(data2[data2$newCABG == "no",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+par(mfrow = c(1,2))
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+
+
+
+corr_mat = cor(data2[data2$newCABG == "yes",][, -c(13,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30)])  # matrice di correlazione
+
+corr = round(corr_mat, 1)
+
+
+cex.before <- par("cex")
+par(cex = 0.7)
+corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
+    order = "AOE", tl.cex = 1/par("cex"),
+    cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
+par(cex = cex.before)
+```
+Come si può vedere c'è una grande correlazione tra dobEF e baseEF in entrambi i casi, una grande correlazione tra sbp e mbp in entrambi i casi, dp e sbp (maggiore con newPTCA = si), dp e dpmaxdo (maggiore in death = no), dp e mbp in newMI = si, basedp e basebp (maggiore con newPTCA = si). Si hanno inoltre dei valori negativi molto più alti nei pazienti con newMI = si.
+
+
+
+```{r Boxplot1, fig.align='center', fig.width=9, fig.height=6}
+box1 = ggplot(data = data2, aes(x = gender, y = bhr, color = gender)) + 
+  geom_boxplot() +
+  theme(legend.direction = "horizontal") +
+  labs(x = "", y = "bhr") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box2 = ggplot(data = data2, aes(x = gender, y = basebp, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "basebp") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box3 = ggplot(data = data2, aes(x = gender, y = basedp, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "basedp") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box4 = ggplot(data = data2, aes(x = gender, y = pkhr, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "pkhr") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box5 = ggplot(data = data2, aes(x = gender, y = sbp, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "sbp") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box6 = ggplot(data = data2, aes(x = gender, y = dp, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dp") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box7 = ggplot(data = data2, aes(x = gender, y = dose, color = gender)) + 
+  geom_boxplot() +
+  theme(legend.direction = "horizontal") +
+  labs(x = "", y = "dose") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box8 = ggplot(data = data2, aes(x = gender, y = pctMphr, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "pctMphr") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box9 = ggplot(data = data2, aes(x = gender, y = mbp, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "mbp") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box10 = ggplot(data = data2, aes(x = gender, y = dpmaxdo, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dpmaxdo") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box11 = ggplot(data = data2, aes(x = gender, y = dobdose, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dobdose") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box12 = ggplot(data = data2, aes(x = gender, y = age, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "age") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box13 = ggplot(data = data2, aes(x = gender, y = baseEF, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "baseEF") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box14 = ggplot(data = data2, aes(x = gender, y = dobEF, color = gender)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dobEF") +
+  scale_color_manual(labels = c("F", "M"), values = c("darkorange", "cyan4"))
+
+box1 = box1 + theme(legend.position = "none")
+box2 = box2 + theme(legend.position = "none")
+box3 = box3 + theme(legend.position = "none")
+box4 = box4 + theme(legend.position = "none")
+box5 = box5 + theme(legend.position = "none")
+box6 = box6 + theme(legend.position = "none")
+box7 = box7 + theme(legend.position = "none")
+box8 = box8 + theme(legend.position = "none")
+box9 = box9 + theme(legend.position = "none")
+box10 = box10 + theme(legend.position = "none")
+box11 = box11 + theme(legend.position = "none")
+box12 = box12 + theme(legend.position = "none")
+box13 = box13 + theme(legend.position = "none")
+box14 = box14 + theme(legend.position = "none")
+
+grid.arrange(box1, box2, box3, box4, box5, box6, box7, box8, box9, box10, box11, box12, box13, box14, ncol=5)
+```
+
+
+
+```{r Boxplot1, fig.align='center', fig.width=9, fig.height=6}
+box1 = ggplot(data = data2, aes(x = chestpain, y = bhr, color = chestpain)) + 
+  geom_boxplot() +
+  theme(legend.direction = "horizontal") +
+  labs(x = "", y = "bhr") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box2 = ggplot(data = data2, aes(x = chestpain, y = basebp, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "basebp") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box3 = ggplot(data = data2, aes(x = chestpain, y = basedp, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "basedp") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box4 = ggplot(data = data2, aes(x = chestpain, y = pkhr, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "pkhr") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box5 = ggplot(data = data2, aes(x = chestpain, y = sbp, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "sbp") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box6 = ggplot(data = data2, aes(x = chestpain, y = dp, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dp") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box7 = ggplot(data = data2, aes(x = chestpain, y = dose, color = chestpain)) + 
+  geom_boxplot() +
+  theme(legend.direction = "horizontal") +
+  labs(x = "", y = "dose") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box8 = ggplot(data = data2, aes(x = chestpain, y = pctMphr, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "pctMphr") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box9 = ggplot(data = data2, aes(x = chestpain, y = mbp, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "mbp") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box10 = ggplot(data = data2, aes(x = chestpain, y = dpmaxdo, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dpmaxdo") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box11 = ggplot(data = data2, aes(x = chestpain, y = dobdose, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dobdose") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box12 = ggplot(data = data2, aes(x = chestpain, y = age, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "age") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box13 = ggplot(data = data2, aes(x = chestpain, y = baseEF, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "baseEF") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+box14 = ggplot(data = data2, aes(x = chestpain, y = dobEF, color = chestpain)) + 
+  geom_boxplot() + 
+  labs(x = "", y = "dobEF") +
+  scale_color_manual(labels = c("yes", "no"), values = c("darkorange", "cyan4"))
+
+
+box1 = box1 + theme(legend.position = "none")
+box2 = box2 + theme(legend.position = "none")
+box3 = box3 + theme(legend.position = "none")
+box4 = box4 + theme(legend.position = "none")
+box5 = box5 + theme(legend.position = "none")
+box6 = box6 + theme(legend.position = "none")
+box7 = box7 + theme(legend.position = "none")
+box8 = box8 + theme(legend.position = "none")
+box9 = box9 + theme(legend.position = "none")
+box10 = box10 + theme(legend.position = "none")
+box11 = box11 + theme(legend.position = "none")
+box12 = box12 + theme(legend.position = "none")
+box13 = box13 + theme(legend.position = "none")
+box14 = box14 + theme(legend.position = "none")
+
+grid.arrange(box1, box2, box3, box4, box5, box6, box7, box8, box9, box10, box11, box12, box13, box14, ncol=5)
+```
