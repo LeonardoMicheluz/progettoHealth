@@ -8,3 +8,8 @@ The key challenges against it’s detection is how to classify tumors into malig
 * Understand the Dataset & cleanup (if required).
 * Build classification models to predict whether the cancer type is Malignant or Benign.
 * Also fine-tune the hyperparameters & compare the evaluation metrics of various classification algorithms.
+
+### References:
+https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset/data
+
+https://www.kaggle.com/code/chanchal24/breast-cancer-prediction-with-7-models-98-acc
