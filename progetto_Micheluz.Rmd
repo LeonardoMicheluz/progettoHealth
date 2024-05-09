@@ -137,27 +137,36 @@ test <- split %>%
 ```
 
 ```{r}
-# Train a logistic regression model
-model <- logistic_reg(mixture = double(1), penalty = double(1)) %>%
-  set_engine("glmnet") %>%
-  set_mode("classification") %>%
-  fit(diagnosis ~ radius_mean + concave.points_mean, data = train)
+# Fit the model using the optimal hyperparameters
+log_reg <- logistic_reg(penalty = 0.0000000001, mixture = 0) %>%
+                 set_engine("glmnet") %>%
+                 set_mode("classification") %>%
+                 fit(diagnosis ~ radius_mean + concave.points_mean, data = train)
 
-# Model summary
-tidy(model)
+# Evaluate the model performance on the testing set
+pred_class <- predict(log_reg,
+                      new_data = test,
+                      type = "class")
+results <- test %>%
+  dplyr::select(diagnosis) %>%
+  bind_cols(pred_class, pred_proba)
+
+# Create confusion matrix
+conf_mat(results, truth = diagnosis,
+         estimate = .pred_class)
+```
+```{r}
+coeff <- tidy(log_reg) %>% 
+  arrange(desc(abs(estimate)))
+print(coeff)
 ```
 
 ```{r}
-# Class Predictions
-pred_class <- predict(model, new_data = test, type = "class")
-
-# Class Probabilities
-pred_proba <- predict(model, new_data = test, type = "prob")
-
-results <- test %>%
-           dplyr::select(diagnosis) %>%
-           bind_cols(pred_class, pred_proba)
-
-accuracy(results, truth = diagnosis, estimate = .pred_class)
-
+# higher precision means that an algorithm returns more relevant results than irrelevant ones
+precision(results, truth = diagnosis,
+          estimate = .pred_class)
+```
+```{r}
+# high recall means that an algorithm returns most of the relevant results
+recall(results, truth = diagnosis, estimate = .pred_class)
 ```
