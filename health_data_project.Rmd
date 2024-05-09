@@ -156,3 +156,13 @@ ggplot(data, aes(x=concave.points_worst, y=radius_mean, color= diagnosis))+
 ggplot(data, aes(x=concave.points_worst, y=radius_mean, color= diagnosis))+
   geom_point()
 ```
+
+```{r}
+ggplot(data, aes(x=concave.points_worst, y=area_worst, color= diagnosis))+
+  geom_point()
+```
+
+```{r}
+ggplot(data, aes(x=concave.points_mean, y=radius_mean, color= diagnosis))+
+  geom_point()
+```
