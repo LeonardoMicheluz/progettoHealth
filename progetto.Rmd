@@ -45,45 +45,25 @@ library(kableExtra)
 
 ```{r load, echo = FALSE, results = FALSE, message = FALSE}
 setwd("C:/Users/media/Desktop/SCUOLA/uni/III anno/II semestre/epidemiology/progetto")
-data = read.csv("cardio.CSV", header = T, stringsAsFactors = T, sep = ";")
+data = read.csv("breast_cancer.csv", header = T, stringsAsFactors = T, sep = ",")
 str(data)
 dim(data)
 ```
-```{r}
-names(data)[names(data) == 'Column1'] <- 'ID'
 
-data$gender<-factor(data$gender, labels=c("F","M"))
-data$chestpain<-factor(data$chestpain, labels=c("no","yes"))
-data$restwma<-factor(data$restwma, labels=c("no","yes"))
-data$posSE <-factor(data$posSE , labels=c("no","yes"))
-data$newMI <-factor(data$newMI , labels=c("no","yes"))
-data$newPTCA<-factor(data$newPTCA, labels=c("no","yes"))
-data$newCABG <-factor(data$newCABG , labels=c("no","yes"))
-data$death<-factor(data$death, labels=c("no","yes"))
-data$hxofHT<-factor(data$hxofHT, labels=c("no","yes"))
-data$hxofDM<-factor(data$hxofDM, labels=c("no","yes"))
-data$hxofCig<-factor(data$hxofCig)
-data$hxofMI<-factor(data$hxofMI, labels=c("no","yes"))
-data$hxofPTCA<-factor(data$hxofPTCA, labels=c("no","yes"))
-data$hxofCABG<-factor(data$hxofCABG, labels=c("no","yes"))
-data$any.event<-factor(data$any.event, labels=c("no","yes"))
-data$ecg<-factor(data$ecg)
+
+```{r}
+missing_values <- colSums(is.na(data))
+print(missing_values)
 ```
 
 
 ```{r fig.height=5, fig.width=8}
-
-data2 <- data[, -c(1,9)]
-```
-
-
-```{r}
-corr_mat = cor(data[, -c(1,15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)])  # matrice di correlazione
+corr_mat = cor(data[, -c(2)])  # matrice di correlazione
 corr = round(corr_mat, 1)
 
 
 cex.before <- par("cex")
-par(cex = 0.7)
+par(cex = 0.5)
 corrplot(corr_mat, method = "number", col=colorRampPalette(c("black","violet","purple"))(200),
     order = "AOE", tl.cex = 1/par("cex"),
     cl.cex = 1/par("cex"), addCoefasPercent = TRUE)
