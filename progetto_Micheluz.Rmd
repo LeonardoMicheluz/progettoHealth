@@ -16,7 +16,6 @@ knitr::opts_chunk$set(results = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
 
-
 ```{r lib, echo = FALSE, message = FALSE, results = FALSE}
 #install.packages("gvlma")
 #install.packages("ggcorrplot")
@@ -36,22 +35,20 @@ library(GGally)
 library(MASS)
 library(kableExtra)
 library(tidymodels)
+library(glmnet)
 ```
 
-
 ```{r load, echo = FALSE, results = FALSE, message = FALSE}
-setwd("C:/Users/media/Desktop/SCUOLA/uni/III anno/II semestre/epidemiology/progetto")
+# setwd("C:/Users/media/Desktop/SCUOLA/uni/III anno/II semestre/epidemiology/progetto")
 data = read.csv("breast_cancer.csv", header = T, stringsAsFactors = T, sep = ",")
 str(data)
 dim(data)
 ```
 
-
 ```{r}
 missing_values <- colSums(is.na(data))
 print(missing_values)
 ```
-
 
 ```{r fig.height=10, fig.width=10}
 corr_mat = cor(data[, -c(2)])  # matrice di correlazione
@@ -126,6 +123,7 @@ ggplot(data, aes(x=concave.points_worst, y=area_worst, color= diagnosis))+
 ggplot(data, aes(x=concave.points_mean, y=radius_mean, color= diagnosis))+
   geom_point()
 ```
+
 ```{r}
 # Split data into train and test
 set.seed(2)
@@ -155,6 +153,7 @@ results <- test %>%
 conf_mat(results, truth = diagnosis,
          estimate = .pred_class)
 ```
+
 ```{r}
 coeff <- tidy(log_reg) %>% 
   arrange(desc(abs(estimate)))
@@ -166,6 +165,7 @@ print(coeff)
 precision(results, truth = diagnosis,
           estimate = .pred_class)
 ```
+
 ```{r}
 # high recall means that an algorithm returns most of the relevant results
 recall(results, truth = diagnosis, estimate = .pred_class)
